@@ -14,7 +14,7 @@ class MyClient(discord.Client):
 
     board = [None] * 9  # A 9 length array will have the tictactoe board.
 
-    board_message = 0    # This will hold the message that displays the board
+    board_message = 0   # This will hold the message that displays the board
                         # and players will react to, to be able to play.
 
     music = ["https://www.youtube.com/watch?v=vTIIMJ9tUc8",
@@ -233,5 +233,6 @@ class MyClient(discord.Client):
                 "!concede              Concede the game\n")
 
 
-client = MyClient()
-client.run('-add your own token here-')
+if __name__ == '__main__':
+    client = MyClient()
+    client.run('-add your own token here-')
