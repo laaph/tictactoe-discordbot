@@ -1,6 +1,8 @@
-import discord
-import aiohttp
 import random
+
+import aiohttp
+import discord
+
 
 class MyClient(discord.Client):
     
@@ -235,5 +237,5 @@ class MyClient(discord.Client):
                 "!concede              Concede the game\n")
 
 client = MyClient()
-client.run('NjEyMjY4Mjk3OTM2ODMwNDY0.XVf5hg.KbXupAyQcBMGZr0F4lPLZ9pFsx0')
+client.run('-add your own token here-')
 
