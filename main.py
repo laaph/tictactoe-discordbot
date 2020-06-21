@@ -20,8 +20,6 @@ class MyClient(discord.Client):
     music = ["https://www.youtube.com/watch?v=vTIIMJ9tUc8",
              "https://www.youtube.com/watch?v=ib3RcLFAKRQ",
              "https://www.youtube.com/watch?v=hHkKJfcBXcw",
-             "https://www.youtube.com/watch?v=p1lGR0LC_2s",
-             "https://www.youtube.com/watch?v=zLZKuAY2tkc",
              "https://www.youtube.com/watch?v=zpGU355C0ak",
              "https://www.youtube.com/watch?v=s6E3xVz01bw",
              "https://www.youtube.com/watch?v=4GwuMcWfPLY",
