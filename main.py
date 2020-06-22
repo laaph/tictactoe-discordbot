@@ -19,12 +19,18 @@ class MyClient(discord.Client):
 
     music = ["https://www.youtube.com/watch?v=vTIIMJ9tUc8",
              "https://www.youtube.com/watch?v=ib3RcLFAKRQ",
+             "https://www.youtube.com/watch?v=fkYBIn9b7oM",
+             "https://www.youtube.com/watch?v=wbgbBB98S1c",
              "https://www.youtube.com/watch?v=hHkKJfcBXcw",
+             "https://www.youtube.com/watch?v=am2zaeDHpxQ",
              "https://www.youtube.com/watch?v=zpGU355C0ak",
+             "https://www.youtube.com/watch?v=ecf4pxeq8CI",
+             "https://www.youtube.com/watch?v=lyyoXRPtoB8",
+             "https://www.youtube.com/watch?v=DSwoYP90xRE",
              "https://www.youtube.com/watch?v=s6E3xVz01bw",
              "https://www.youtube.com/watch?v=4GwuMcWfPLY",
-             "https://youtu.be/gMkrvTraVZ0",
-             "http://youtu.be/lSxh-UK7Ays",
+             "https://www.youtube.com/watch?v=gMkrvTraVZ0",
+             "https://www.youtube.com/watch?v=lSxh-UK7Ays",
              "https://www.youtube.com/watch?v=chDzjpochB0"]
 
     async def on_ready(self):
