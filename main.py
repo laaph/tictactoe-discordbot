@@ -28,15 +28,18 @@ class MyClient(discord.Client):
              "https://www.youtube.com/watch?v=ecf4pxeq8CI",
              "https://www.youtube.com/watch?v=lyyoXRPtoB8",
              "https://www.youtube.com/watch?v=DSwoYP90xRE",
-             "https://www.youtube.com/watch?v=s6E3xVz01bw",
              "https://www.youtube.com/watch?v=4GwuMcWfPLY",
-             "https://www.youtube.com/watch?v=gMkrvTraVZ0",
              "https://www.youtube.com/watch?v=lSxh-UK7Ays",
              "https://www.youtube.com/watch?v=DM8Tm9ycGz4",
              "https://www.youtube.com/watch?v=chDzjpochB0"]
 
     async def on_ready(self):
         print('Logged on as {0}!'.format(self.user))
+        for guild in client.guilds:
+            print(
+                f'{client.user} is connected to the following guild:\n'
+                f'{guild.name}(id: {guild.id})'
+            )
 
     def drawimage(self):
         board_symbols = ["", "", "\n", "", "", "\n", "", "", "\n"]
