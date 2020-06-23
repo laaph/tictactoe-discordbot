@@ -3,6 +3,7 @@ import random
 import aiohttp
 import discord
 
+import tokeninfo
 
 class MyClient(discord.Client):
     game_status = "no game"
@@ -238,4 +239,4 @@ class MyClient(discord.Client):
 
 if __name__ == '__main__':
     client = MyClient()
-    client.run('-add your own token here-')
+    client.run(tokeninfo.token)
