@@ -32,6 +32,7 @@ class MyClient(discord.Client):
              "https://www.youtube.com/watch?v=4GwuMcWfPLY",
              "https://www.youtube.com/watch?v=gMkrvTraVZ0",
              "https://www.youtube.com/watch?v=lSxh-UK7Ays",
+             "https://www.youtube.com/watch?v=DM8Tm9ycGz4",
              "https://www.youtube.com/watch?v=chDzjpochB0"]
 
     async def on_ready(self):
@@ -135,12 +136,13 @@ class MyClient(discord.Client):
             boardtoken = 1
         if user.id == self.player2id:
             boardtoken = 2
-        reaction_locations = ["↖", "⬆", "↗", "⬅", "🔵", "➡", "↙", "⬇", "↘"]
+        reaction_locations = ["↖️", "⬆️", "↗️", "⬅️", "🔵", "➡️", "↙️", "⬇️", "↘️"]
         a = -1
         try:
             a = reaction_locations.index(reaction.emoji)
         except ValueError:
-            print("ValueError: " + ValueError)
+            # if the reaction.emoji is not on our list, we don't care to print out an error
+            #print("ValueError: " + ValueError)
             return
 
         if self.board[a] == 0:
