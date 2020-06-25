@@ -31,6 +31,7 @@ class MyClient(discord.Client):
              "https://www.youtube.com/watch?v=4GwuMcWfPLY",
              "https://www.youtube.com/watch?v=lSxh-UK7Ays",
              "https://www.youtube.com/watch?v=DM8Tm9ycGz4",
+             "https://www.youtube.com/watch?v=cmO6QkJhuu4",
              "https://www.youtube.com/watch?v=chDzjpochB0"]
 
     async def on_ready(self):
