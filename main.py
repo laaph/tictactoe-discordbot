@@ -3,7 +3,9 @@ import random
 import aiohttp
 import discord
 
+import tictactoe
 import tokeninfo
+
 
 class MyClient(discord.Client):
     game_status = "no game"
@@ -13,10 +15,10 @@ class MyClient(discord.Client):
     player1id = 0
     player2id = 0
 
-    board = [None] * 9  # A 9 length array will have the tictactoe board.
+    tictactoe = tictactoe.TicTacToe()
 
-    board_message = 0   # This will hold the message that displays the board
-                        # and players will react to, to be able to play.
+    board_message = 0  # This will hold the message that displays the board
+    # and players will react to, to be able to play.
 
     music = ["https://www.youtube.com/watch?v=vTIIMJ9tUc8",
              "https://www.youtube.com/watch?v=ib3RcLFAKRQ",
@@ -44,39 +46,24 @@ class MyClient(discord.Client):
 
     def drawimage(self):
         board_symbols = ["", "", "\n", "", "", "\n", "", "", "\n"]
-        # board_symbols = ["⬛", "⬛", "\n", "⬛", "⬛", "\n", "⬛", "⬛", "\n"]
 
         tobeshownmessage = ""
         # I have to think about this slowly
         for i in range(9):
-            if self.board[i] == 0:
+            if self.tictactoe.board[i] == 0:
                 tobeshownmessage += ":black_square_button: "
-            if self.board[i] == 1:
+            if self.tictactoe.board[i] == 1:
                 tobeshownmessage += ":regional_indicator_x: "
-            if self.board[i] == 2:
+            if self.tictactoe.board[i] == 2:
                 tobeshownmessage += ":regional_indicator_o: "
             tobeshownmessage += board_symbols[i]
 
         print(tobeshownmessage)
         return tobeshownmessage
 
-    async def checkforwin(self):
+    async def check_for_win(self):
 
-        win = 0
-
-        for i in [0, 3, 6]:
-            if self.board[i] == self.board[i + 1] and self.board[i] == self.board[i + 2]:
-                win = self.board[i]
-        for i in [0, 1, 2]:
-            if self.board[i] == self.board[i + 3] and self.board[i] == self.board[i + 6]:
-                win = self.board[i]
-
-        if self.board[0] == self.board[4] and self.board[0] == self.board[8]:
-            print("win for {}".format(self.board[0]))
-            win = self.board[0]
-        if self.board[2] == self.board[4] and self.board[2] == self.board[6]:
-            print("win for {}".format(self.board[2]))
-            win = self.board[2]
+        win = self.tictactoe.check_for_win()
 
         if win == 1:
             await self.board_message.channel.send("Winner is {}".format(self.player1))
@@ -85,13 +72,7 @@ class MyClient(discord.Client):
             await self.board_message.channel.send("Winner is {}".format(self.player2))
             await self.cleanup_game()
 
-        tiegame = 1
-
-        for i in range(9):
-            if self.board[i] == 0:
-                tiegame = 0
-
-        if tiegame:
+        if win == 3:
             await self.board_message.channel.send("Tie game!")
             await self.cleanup_game()
 
@@ -99,36 +80,28 @@ class MyClient(discord.Client):
             await self.take_ai_turn()
 
     async def cleanup_game(self):
-        await self.board_message.channel.send("Cleaning up for next game...")
         self.game_status = "no game"
         self.player_turn = "no game"
         self.player1 = "no game"
         self.player2 = "no game"
         self.player1id = 0
         self.player2id = 0
-        self.board = [None] * 9
+        # self.board_message = 0 We set this below so the following line does not crash
+
+        await self.board_message.channel.send("Cleaning up for next game...")
+        self.tictactoe.cleanup_game()
         self.board_message = 0
 
     async def take_ai_turn(self):
-        if self.player1id == 0:
-            boardtoken = 1
-        if self.player2id == 0:
-            boardtoken = 2
 
-        flag = True
-        while (flag):
-            r = random.randint(0, 8)
-            if self.board[r] == 0:
-                self.board[r] = boardtoken
-                flag = False
-                await self.board_message.edit(content=self.drawimage())
+        self.tictactoe.take_ai_turn()
 
         if self.player1id == 0:
             self.player_turn = self.player2id
         else:
             self.player_turn = self.player1id
 
-        await self.checkforwin()
+        await self.check_for_win()
 
     async def on_reaction_add(self, reaction, user):
         if self.game_status == "no game":
@@ -146,15 +119,14 @@ class MyClient(discord.Client):
             a = reaction_locations.index(reaction.emoji)
         except ValueError:
             # if the reaction.emoji is not on our list, we don't care to print out an error
-            #print("ValueError: " + ValueError)
+            # print("ValueError: " + ValueError)
             return
 
-        if self.board[a] == 0:
-            self.board[a] = boardtoken
-        else:
-            await self.board_message.channel.send(
-                "You can not play there since there is already a symbol in that position.")
-            return
+        out = self.tictactoe.take_turn(boardtoken, a)
+
+        #if out > 4:
+        await self.board_message.channel.send(out)
+        #return // we should probably not mingle strings and ints in the return of take_turn()
 
         await self.board_message.edit(content=self.drawimage())
 
@@ -163,7 +135,8 @@ class MyClient(discord.Client):
         else:
             self.player_turn = self.player1id
 
-        await self.checkforwin()
+        await self.check_for_win()
+
 
     async def on_message(self, message):
         if message.author == client.user:
@@ -201,16 +174,24 @@ class MyClient(discord.Client):
             await m.edit(content="New game between {0} and {1} started.".format(self.player1, self.player2))
 
             self.board_message = m
-            for i in range(9):
-                self.board[i] = 0
+
+            self.tictactoe.new_game(self.player1, self.player2)
 
             await m.edit(content=self.drawimage())
 
-            self.game_status = "game happenening at message " + m.jump_url
+            self.game_status = "game happening at message " + m.jump_url
 
             self.player_turn = self.player1id
             if self.player_turn == 0:
                 await self.take_ai_turn()
+
+            return  # we do not want to be picked up by the below function
+
+        if message.content.find("!newgame") != -1:
+            if self.game_status != "no game":
+                await message.channel.send("A game is already happening at " + self.board_message.jump_url)
+                return
+            await message.channel.send("Multiplayer is not yet implemented")
 
         if message.content.find("!hello") != -1:
             await message.channel.send("Hi")

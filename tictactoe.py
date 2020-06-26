@@ -21,6 +21,12 @@ class TicTacToe:
     # answer; we will implement the AI here but expect the client to call the
     # appropriate method when it is the AI's turn.
 
+    def cleanup_game(self):
+        player_turn = 0
+        player_names = [None] * 3
+        board = [None] * 9
+        return
+
     def take_ai_turn(self):
         # This will also imply the caller knows to only call this when it is the AIs turn
 
@@ -29,6 +35,7 @@ class TicTacToe:
             r = random.randint(0, 8)
             if self.board[r] == 0:
                 self.board[r] = self.player_turn
+                flag = False
 
         if self.player_turn == 1:
             self.player_turn = 2
@@ -45,7 +52,14 @@ class TicTacToe:
             return "Wrong player taking turn, or possibly no current game"
         if self.board[location] != 0:
             return "location to be played already occupied"
-        board[location] = player_num
+        self.board[location] = player_num
+        if player_num == 2:
+            player_num = 1
+        else:
+            player_num = 2
+
+        return self.check_for_win()
+
 
     def game_status_string(self):
         results = {0: "no game", 1: "It is player 1's turn", 2: "It is player 2's turn"}
@@ -77,13 +91,17 @@ class TicTacToe:
         if win == 2:
             return 2
 
+        print("did not return yet, not a win for 1 or 2.")
+
         # bug we should check for tie game before checking for win.
         tie_game = 3
 
         for i in range(9):
             if self.board[i] == 0:
+                print("not a tie")
                 tie_game = 0
 
+        print(tie_game)
         return tie_game
 
     def new_game(self, p1, p2):
@@ -98,7 +116,5 @@ class TicTacToe:
 
         for i in range(9):
             self.board[i] = 0
-
-        self.player_turn = self.p1
 
         self.player_turn = 1
