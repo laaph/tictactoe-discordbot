@@ -1,6 +1,5 @@
 import random
 
-
 class TicTacToe:
     # we should not use string constants but rather enums or something here
     # We will do 0/1 for game status for now, and player turn will be
@@ -47,13 +46,15 @@ class TicTacToe:
 
         return self.check_for_win
 
-    def take_turn(self, player_num, location):
-        if player_num != self.player_turn:
-            return "Wrong player taking turn, or possibly no current game"
+    def take_turn(self, player, location):
+        if player == 0:
+            return "No game in progress"
+        if player != self.player_turn:
+            return "Wrong player taking turn"
         if self.board[location] != 0:
             return "location to be played already occupied"
-        self.board[location] = player_num
-        if player_num == 2:
+        self.board[location] = player
+        if player == 2:
             self.player_num = 1
         else:
             self.player_num = 2
