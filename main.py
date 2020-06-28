@@ -8,17 +8,18 @@ import tokeninfo
 
 
 class MyClient(discord.Client):
-    game_status = "no game"
-    player_turn = "no game"
-    player1 = "no game"
-    player2 = "no game"
-    player1id = 0
-    player2id = 0
+    def __init__(self):
+        self.tictactoe = tictactoe.TicTacToe()
+        self.game_status = "no game"
+        self.player_turn = "no game"
+        self.player1 = "no game"
+        self.player2 = "no game"
+        self.player1id = 0
+        self.player2id = 0
 
-    tictactoe = tictactoe.TicTacToe()
 
-    board_message = 0  # This will hold the message that displays the board
-    # and players will react to, to be able to play.
+        self.board_message = 0  # This will hold the message that displays the board
+        # and players will react to, to be able to play.
 
     music = ["https://www.youtube.com/watch?v=vTIIMJ9tUc8",
              "https://www.youtube.com/watch?v=ib3RcLFAKRQ",
