@@ -1,5 +1,10 @@
+import logging
 import random
 
+logging.basicConfig()
+
+logger = logging.getLogger(__name__)
+logger.level = logging.ERROR
 
 class TicTacToe:
     # we should not use string constants but rather enums or something here
@@ -27,6 +32,7 @@ class TicTacToe:
         board = [None] * 9
         return
 
+
     def take_ai_turn(self):
         # This will also imply the caller knows to only call this when it is the AIs turn
 
@@ -47,16 +53,19 @@ class TicTacToe:
 
         return self.check_for_win
 
-    def take_turn(self, player_num, location):
-        if player_num != self.player_turn:
+    def take_turn(self, *, player, location):
+        # TODO: replace return str with raise ValueError(msg)
+        #       add a docstring
+        #       return the player who's next
+        if player != self.player_turn:
             return "Wrong player taking turn, or possibly no current game"
         if self.board[location] != 0:
             return "location to be played already occupied"
-        self.board[location] = player_num
-        if player_num == 2:
-            player_num = 1
+        self.board[location] = player
+        if player == 2:
+            self.player_turn = 1
         else:
-            player_num = 2
+            self.player_turn = 2
 
         return self.check_for_win()
 
@@ -80,10 +89,10 @@ class TicTacToe:
                 win = self.board[i]
 
         if self.board[0] == self.board[4] and self.board[0] == self.board[8]:
-            print("win for {}".format(self.board[0]))
+            logger.info("win for {}".format(self.board[0]))
             win = self.board[0]
         if self.board[2] == self.board[4] and self.board[2] == self.board[6]:
-            print("win for {}".format(self.board[2]))
+            logger.info("win for {}".format(self.board[2]))
             win = self.board[2]
 
         if win == 1:
@@ -91,17 +100,17 @@ class TicTacToe:
         if win == 2:
             return 2
 
-        print("did not return yet, not a win for 1 or 2.")
+        logger.info("did not return yet, not a win for 1 or 2.")
 
         # bug we should check for tie game before checking for win.
         tie_game = 3
 
         for i in range(9):
             if self.board[i] == 0:
-                print("not a tie")
+                logger.info("not a tie")
                 tie_game = 0
 
-        print(tie_game)
+        logger.info(tie_game)
         return tie_game
 
     def new_game(self, p1, p2):

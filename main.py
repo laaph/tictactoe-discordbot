@@ -122,10 +122,12 @@ class MyClient(discord.Client):
             # print("ValueError: " + ValueError)
             return
 
+        # TODO: handle ValueError and pass the message to the player
+        #       value returned by take_turn is the next player id
         out = self.tictactoe.take_turn(boardtoken, a)
 
         #if out > 4:
-        await self.board_message.channel.send(out)
+        oawait self.board_message.channel.send(out)
         #return // we should probably not mingle strings and ints in the return of take_turn()
 
         await self.board_message.edit(content=self.drawimage())
