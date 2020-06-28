@@ -54,12 +54,11 @@ class TicTacToe:
             return "location to be played already occupied"
         self.board[location] = player_num
         if player_num == 2:
-            player_num = 1
+            self.player_num = 1
         else:
-            player_num = 2
+            self.player_num = 2
 
         return self.check_for_win()
-
 
     def game_status_string(self):
         results = {0: "no game", 1: "It is player 1's turn", 2: "It is player 2's turn"}
@@ -112,7 +111,6 @@ class TicTacToe:
         else:
             self.player_names[1] = p2
             self.player_names[0] = p1
-
 
         for i in range(9):
             self.board[i] = 0
