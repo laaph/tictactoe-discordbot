@@ -1,29 +1,35 @@
+import logging
 import random
 
+logging.basicConfig(level=logging.DEBUG)
+
+
 class TicTacToe:
-    # we should not use string constants but rather enums or something here
-    # We will do 0/1 for game status for now, and player turn will be
-    # 0 - no game 1 - player 1 turn, 2 - player 2 turn.
-    # game_status = 0
-    player_turn = 0
+    def __init__(self):
+        # we should not use string constants but rather enums or something here
+        # We will do 0/1 for game status for now, and player turn will be
+        # 0 - no game 1 - player 1 turn, 2 - player 2 turn.
+        # game_status = 0
+        self.player_turn = 0
 
-    # we don't need ids for the players; however, an array of strings will be nice
+        # we don't need ids for the players; however, an array of strings will be nice
 
-    player_names = [None] * 3  # player_name[0] is not used
-    # player1id = 0
-    # player2id = 0
+        self.player_names = [None] * 3  # player_name[0] is not used
+        # player1id = 0
+        # player2id = 0
 
-    board = [None] * 9  # A 9 length array will have the tictactoe board.
+        self.board = [None] * 9  # A 9 length array will have the tictactoe board.
 
-    # strange question; should I do AI movement here or externally?
+        self.player_num = 0
+        # strange question; should I do AI movement here or externally?
 
-    # answer; we will implement the AI here but expect the client to call the
-    # appropriate method when it is the AI's turn.
+        # answer; we will implement the AI here but expect the client to call the
+        # appropriate method when it is the AI's turn.
 
-    def cleanup_game(self):
-        player_turn = 0
-        player_names = [None] * 3
-        board = [None] * 9
+    def cleanup_game():
+        self.player_turn = 0
+        self.player_names = [None] * 3
+        self.board = [None] * 9
         return
 
     def take_ai_turn(self):
@@ -55,9 +61,9 @@ class TicTacToe:
             return "location to be played already occupied"
         self.board[location] = player
         if player == 2:
-            self.player_num = 1
+            self.player_turn = 1
         else:
-            self.player_num = 2
+            self.player_turn = 2
 
         return self.check_for_win()
 
@@ -83,7 +89,7 @@ class TicTacToe:
             print("win for {}".format(self.board[0]))
             win = self.board[0]
         if self.board[2] == self.board[4] and self.board[2] == self.board[6]:
-            print("win for {}".format(self.board[2]))
+            logging.info("win for {}".format(self.board[2]))
             win = self.board[2]
 
         if win == 1:

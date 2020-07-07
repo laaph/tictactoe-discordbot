@@ -17,9 +17,13 @@ class MyClient(discord.Client):
         self.player1id = 0
         self.player2id = 0
 
-
         self.board_message = 0  # This will hold the message that displays the board
         # and players will react to, to be able to play.
+
+        # python has objc style where you manually call the init method on the parent
+        # super.__init() doesn't seem to work, it insists on an argument
+        #super.__init__()
+        discord.Client.__init__(self)
 
     music = ["https://www.youtube.com/watch?v=vTIIMJ9tUc8",
              "https://www.youtube.com/watch?v=ib3RcLFAKRQ",
@@ -119,8 +123,7 @@ class MyClient(discord.Client):
         try:
             a = reaction_locations.index(reaction.emoji)
         except ValueError:
-            # if the reaction.emoji is not on our list, we don't care to print out an error
-            # print("ValueError: " + ValueError)
+            await self.board_message.channel.send("That reaction is not used in this game.")
             return
 
         out = self.tictactoe.take_turn(boardtoken, a)
